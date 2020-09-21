@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>管理权限</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js"></script>
+</head>
+<body style="background: #fff">
+<table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+<script type="text/html" id="toolbarDemo">
+  	<div class="layui-btn-container">
+  		<a href="{:url('add')}" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon"></i>添加</a>
+  	</div>
+</script>
+ 
+<script type="text/html" id="barDemo">
+  	<a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs">编辑</a>
+  	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</body>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,url:'{:url("index")}'
+    ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+    ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+      title: '提示'
+      ,layEvent: 'LAYTABLE_TIPS'
+      ,icon: 'layui-icon-tips'
+    }]
+    ,title: '管理组首页'
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+      ,{field:'title', title:'规则中文名称'}
+      ,{field:'name', title:'规则唯一标识/方法'}
+      ,{field:'status', title:'状态'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    ,page: true
+  });
+  
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        $.ajax({
+          url:"{:url('del')}",
+          type:"post",
+          data:{id:data.id},
+          success(e){
+            if(e.code == 1)
+            {
+              layer.msg(e.msg,{icon: 6});
+            }
+            else
+            {
+              layer.msg(e.msg,{icon: 5});
+            }
+          }
+        })
+        obj.del();
+        layer.close(index);
+      });
+    }
+  });
+});
+</script>
+</html>
