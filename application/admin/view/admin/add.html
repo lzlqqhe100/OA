@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>管理员添加</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://heerey525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js"></script>
+</head>
+<body style="background: #fff;padding-left: 100px">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+  <legend>管理员添加</legend>
+</fieldset>
+<form class="layui-form layui-form-pane" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">用户名</label>
+    <div class="layui-input-inline">
+      <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-inline">
+      <input type="password" name="password" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-block">
+      <input type="radio" name="sex" value="男" title="男" checked="">
+      <input type="radio" name="sex" value="女" title="女">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">年龄</label>
+    <div class="layui-input-inline">
+      <input type="text" name="age" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">岁</div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">民族</label>
+    <div class="layui-input-inline">
+      <select name="nation" lay-verify="required">
+        <option value="">请选择</option>
+        <option value="汉族">汉族</option>
+        <option value="别的民族">别的民族</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">工作单位</label>
+    <div class="layui-input-inline">
+      <input type="text" name="company" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">部门</label>
+    <div class="layui-input-inline">
+      <input type="text" name="depart" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">职位</label>
+    <div class="layui-input-inline">
+      <select name="position" lay-verify="required">
+        <option value="">请选择</option>
+        {volist name="group" id="vo"}
+        <option value="{$vo.id}">{$vo.title}</option>
+        {/volist}
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">政治面貌</label>
+    <div class="layui-input-inline">
+      <select name="outlook" lay-verify="required">
+        <option value="无">无</option>
+        <option value="团员">团员</option>
+        <option value="党员">党员</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">联系电话</label>
+    <div class="layui-input-inline">
+      <input type="text" name="phone" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-inline">
+      <input type="email" name="email" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+  </div>
+</form>
+</body>
+<script>
+layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+
+  //监听提交
+  form.on('submit(demo1)', function(data){
+    $.ajax({
+      url:"{:url('add')}",
+      type:"post",
+      data:data.field,
+      success(e){
+        if(e.code == 1)
+        {
+          layer.msg(e.msg,{icon: 6});
+          setInterval(function working(){ 
+            window.location.replace("{:url('index')}");
+          },3000);
+        }
+        else
+        {
+          layer.msg(e.msg,{icon: 5});
+        }
+      }
+    })
+    return false;
+  });
+});
+</script>
+</html>
