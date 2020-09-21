@@ -10,7 +10,7 @@ class Common extends Controller
 	{
 		if(empty(session('username')))
 		{
-			$this->error('请先登录！');
+			$this->error('请先登录！',url('admin/login/index'));
 		}
 	}
 }
