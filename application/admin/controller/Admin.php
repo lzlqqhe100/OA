@@ -1,25 +1,10 @@
 <?php
 namespace app\admin\controller;
-use app\admin\controller\Auth;
 /**
  * 
  */
 class Admin extends Common
 {
-	public function _initialize()
-	{
-		$auth = Auth::instance();
-		$module = request()->module();
-		$action = request()->action();
-		$controller = request()->controller();
-		if($auth->getGroups(session('uid'))[0]['group_id'] != 1)
-		{
-			if(!$auth->check($module.'/'.$controller.'/'.$action,session('uid')))
-			{
-				$this->error('没有权限',url(''));
-			}
-		}
-	}
 	public function index()
 	{
 		if(request()->isAjax())
