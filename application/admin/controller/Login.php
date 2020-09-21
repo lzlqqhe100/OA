@@ -37,6 +37,7 @@ class Login extends Controller
 	}
 	public function outlogin()
 	{
+		session('uid',NULL);
 		session('username',NULL);
 		$this->success('退出成功！',url('login/index'));
 	}
