@@ -1,5 +1,6 @@
 <?php
 namespace app\admin\controller;
+use app\admin\controller\Auth;
 /**
  * 
  */
@@ -9,9 +10,12 @@ class Mymes extends Common
 	{
 		$user = db('admin')->find(session('uid'));
 		$authgroup = db('auth_group')->where('status',1)->select();
+		$auth = Auth::instance();
+		$group = $auth->getGroups(session('uid'))[0];
 		$this->assign([
 			'user'=>$user,
 			'authgroup'=>$authgroup,
+			'group'=>$group,
 		]);
 		return view();
 	}

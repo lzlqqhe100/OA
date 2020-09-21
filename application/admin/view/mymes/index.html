@@ -49,6 +49,7 @@
 
     </tr>
     <tr><td><label class="td_label">职位</label></td>
+        {if condition="$group.group_id == 1"}
         <td >
             <select name="position" id="position">
                 {volist name="authgroup" id="vo"}
@@ -56,7 +57,9 @@
                 {/volist}
             </select>
         </td>
-
+        {else}
+        <td  class="reead">{$group.title}</td>
+        {/if}
         <td><label class="td_label">政治面貌</label></td>
         <td>
             <select name="outlook" id="outlook">
